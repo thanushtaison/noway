@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::head('My Orders')}"></head>
+<body>
+<div th:replace="~{fragments::navbar}"></div>
+
+<main class="container page">
+    <div class="page-header">
+        <h1>My Orders</h1>
+    </div>
+
+    <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+    <div th:if="${orders.isEmpty()}" class="empty-state">
+        <p>You have no orders yet.</p>
+        <a class="btn btn-primary" th:href="@{/products}">Start Shopping</a>
+    </div>
+
+    <div th:if="${!orders.isEmpty()}" class="table-wrap">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="o : ${orders}">
+                <td th:text="'#' + ${o.id}">#1</td>
+                <td th:text="${o.createdAtText}">date</td>
+                <td th:text="'₹' + ${#numbers.formatDecimal(o.totalAmount, 1, 'COMMA', 0, 'POINT')}">₹0</td>
+                <td><span class="status-tag" th:classappend="${o.status.name().toLowerCase()}" th:text="${o.status.name()}">CONFIRMED</span></td>
+                <td><a class="btn btn-outline btn-sm" th:href="@{/orders/{id}(id=${o.id})}">View Details</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<div th:replace="~{fragments::footer}"></div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

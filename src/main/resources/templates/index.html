@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::head('Home')}"></head>
+<body>
+<div th:replace="~{fragments::navbar}"></div>
+
+<header class="hero">
+    <div class="hero-content">
+        <h1>Welcome to <span class="hero-brand">NO WAY</span></h1>
+        <p>Shop the best electronics, accessories and wearables at unbeatable prices.</p>
+        <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" th:href="@{/products}">Shop Now</a>
+            <a class="btn btn-outline-light btn-lg" th:href="@{/register}">Create Account</a>
+        </div>
+    </div>
+</header>
+
+<section class="section container">
+    <h2 class="section-title">Shop by Category</h2>
+    <div class="category-grid">
+        <a class="category-card" th:each="c : ${categories}" th:href="@{/products(category=${c})}">
+            <span class="category-name" th:text="${c}">Electronics</span>
+        </a>
+    </div>
+</section>
+
+<section class="section container">
+    <h2 class="section-title">Featured Products</h2>
+    <div class="product-grid">
+        <div class="product-card" th:each="p : ${featuredProducts}">
+            <img class="product-img" th:src="@{${p.imageUrl}}" th:alt="${p.name}">
+            <div class="product-info">
+                <span class="category-tag" th:text="${p.category}">Category</span>
+                <h3 class="product-name" th:text="${p.name}">Product</h3>
+                <p class="product-price" th:text="'₹' + ${#numbers.formatDecimal(p.price, 1, 'COMMA', 0, 'POINT')}">₹0</p>
+                <div class="card-actions">
+                    <a class="btn btn-primary btn-sm" th:href="@{/products/{id}(id=${p.id})}">View Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="center">
+        <a class="btn btn-outline" th:href="@{/products}">View All Products</a>
+    </div>
+</section>
+
+<div th:replace="~{fragments::footer}"></div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

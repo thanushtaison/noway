@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::head('Product')}"></head>
+<body>
+<div th:replace="~{fragments::navbar}"></div>
+
+<main class="container page" th:with="p=${product}">
+    <nav class="breadcrumb">
+        <a th:href="@{/products}">Products</a> /
+        <span th:text="${p.category}">Category</span> /
+        <span th:text="${p.name}">Product</span>
+    </nav>
+
+    <div class="detail-grid">
+        <div class="detail-image">
+            <img th:src="@{${p.imageUrl}}" th:alt="${p.name}">
+        </div>
+        <div class="detail-info">
+            <span class="category-tag" th:text="${p.category}">Category</span>
+            <h1 th:text="${p.name}">Product Name</h1>
+            <p class="detail-price" th:text="'₹' + ${#numbers.formatDecimal(p.price, 1, 'COMMA', 0, 'POINT')}">₹0</p>
+            <p class="detail-stock" th:text="${p.stock > 0 ? 'Available stock: ' + p.stock : 'Out of stock'}"
+               th:classappend="${p.stock > 0} ? 'in-stock' : 'out-of-stock'">Available stock</p>
+            <p class="detail-description" th:text="${p.description}">Description</p>
+
+            <div class="detail-actions">
+                <div class="qty-control">
+                    <button type="button" onclick="changeQty(-1)" aria-label="Decrease quantity">&#8722;</button>
+                    <input type="number" id="qtyInput" value="1" min="1" th:max="${p.stock}" readonly>
+                    <button type="button" onclick="changeQty(1)" aria-label="Increase quantity">&#43;</button>
+                </div>
+                <button class="btn btn-primary btn-lg" th:disabled="${p.stock <= 0}"
+                        th:attr="data-product-id=${p.id}, data-name=${p.name}, data-stock=${p.stock}"
+                        id="addToCartBtn" onclick="addToCartFromDetails(this)">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments::footer}"></div>
+<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/js/cart.js}"></script>
+</body>
+</html>

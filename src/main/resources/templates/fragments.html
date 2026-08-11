@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} + ' | NO WAY'">NO WAY</title>
+    <link rel="icon" type="image/svg+xml" th:href="@{/images/logo.svg}">
+    <link rel="manifest" th:href="@{/manifest.json}">
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="description" content="NO WAY - your one-stop online store for electronics and accessories.">
+    <link rel="apple-touch-icon" th:href="@{/images/icon-192.png}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar" th:fragment="navbar">
+    <div class="nav-inner container">
+        <a class="brand" th:href="@{/}">
+            <img th:src="@{/images/logo.svg}" alt="NO WAY logo">
+            <span class="brand-name">NO WAY</span>
+        </a>
+        <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/products}">Products</a></li>
+            <li th:if="${!isAuthenticated}"><a th:href="@{/login}">Login</a></li>
+            <li th:if="${!isAuthenticated}"><a th:href="@{/register}">Register</a></li>
+            <li th:if="${isAuthenticated}"><a th:href="@{/cart}">Cart <span class="badge" th:text="${cartCount}">0</span></a></li>
+            <li th:if="${isAuthenticated and currentUser.role.name() == 'BUYER'}"><a th:href="@{/orders}">My Orders</a></li>
+            <li th:if="${isAuthenticated and currentUser.role.name() == 'SELLER'}"><a th:href="@{/seller}">Seller</a></li>
+            <li th:if="${isAuthenticated and currentUser.role.name() == 'ADMIN'}"><a th:href="@{/admin}">Admin</a></li>
+        </ul>
+        <div class="nav-user" th:if="${isAuthenticated}">
+            <span class="nav-welcome" th:text="'Hi, ' + ${currentUser.name}">Hi</span>
+            <form th:action="@{/logout}" method="post" class="inline-form">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <button type="submit" class="btn btn-outline btn-sm">Logout</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<footer class="footer" th:fragment="footer">
+    <div class="footer-inner container">
+        <p>&copy; 2026 NO WAY. All rights reserved. Built with Java, Spring Boot &amp; MySQL.</p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::head('Products')}"></head>
+<body>
+<div th:replace="~{fragments::navbar}"></div>
+
+<main class="container page">
+    <div class="page-header">
+        <h1>Products</h1>
+    </div>
+
+    <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+    <form class="search-bar" method="get" th:action="@{/products}">
+        <input type="text" name="search" th:value="${search}" placeholder="Search products by name..." aria-label="Search products">
+        <input type="hidden" name="category" th:value="${selectedCategory}">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <div class="category-filter">
+        <a class="chip" th:classappend="${selectedCategory == ''} ? 'active' : ''" th:href="@{/products(search=${search})}">All</a>
+        <a class="chip" th:each="c : ${categories}"
+           th:classappend="${c == selectedCategory} ? 'active' : ''"
+           th:href="@{/products(search=${search}, category=${c})}">
+            <span th:text="${c}">Category</span>
+        </a>
+    </div>
+
+    <div th:if="${products.isEmpty()}" class="empty-state">
+        <p>No products found. Try a different search or category.</p>
+        <a class="btn btn-outline" th:href="@{/products}">Clear Filters</a>
+    </div>
+
+    <div class="product-grid">
+        <div class="product-card" th:each="p : ${products}">
+            <img class="product-img" th:src="@{${p.imageUrl}}" th:alt="${p.name}">
+            <div class="product-info">
+                <span class="category-tag" th:text="${p.category}">Category</span>
+                <h3 class="product-name" th:text="${p.name}">Product</h3>
+                <p class="product-price" th:text="'₹' + ${#numbers.formatDecimal(p.price, 1, 'COMMA', 0, 'POINT')}">₹0</p>
+                <p class="product-stock" th:text="${p.stock > 0 ? 'In stock: ' + p.stock : 'Out of stock'}">In stock</p>
+                <div class="card-actions">
+                    <a class="btn btn-primary btn-sm" th:href="@{/products/{id}(id=${p.id})}">View Details</a>
+                    <button class="btn btn-outline btn-sm"
+                            th:disabled="${p.stock <= 0}"
+                            th:attr="data-product-id=${p.id}, data-name=${p.name}"
+                            onclick="addToCartFromCard(this)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments::footer}"></div>
+<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/js/cart.js}"></script>
+</body>
+</html>

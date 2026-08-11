@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::head('Admin')}"></head>
+<body>
+<div th:replace="~{fragments::navbar}"></div>
+
+<main class="container page">
+    <div class="page-header">
+        <h1>Admin Dashboard</h1>
+        <p class="muted">Welcome, <span th:text="${currentUser.name}">Admin</span></p>
+    </div>
+
+    <div class="card">
+        <h3>Admin features are coming in Phase 2</h3>
+        <p class="muted">
+            In the next phase, administrators will be able to:
+        </p>
+        <ul class="feature-list">
+            <li>View all registered users</li>
+            <li>Manage user accounts</li>
+            <li>View and manage all orders</li>
+            <li>Add and remove products</li>
+        </ul>
+        <a class="btn btn-primary" th:href="@{/products}">Browse Products</a>
+    </div>
+</main>
+
+<div th:replace="~{fragments::footer}"></div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

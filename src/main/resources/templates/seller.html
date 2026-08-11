@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::head('Seller')}"></head>
+<body>
+<div th:replace="~{fragments::navbar}"></div>
+
+<main class="container page">
+    <div class="page-header">
+        <h1>Seller Dashboard</h1>
+        <p class="muted">Welcome, <span th:text="${currentUser.name}">Seller</span></p>
+    </div>
+
+    <div class="card">
+        <h3>Seller features are coming in Phase 2</h3>
+        <p class="muted">
+            In the next phase, sellers will be able to:
+        </p>
+        <ul class="feature-list">
+            <li>Add new products</li>
+            <li>Edit and delete their products</li>
+            <li>View orders received for their products</li>
+            <li>Track inventory and sales</li>
+        </ul>
+        <a class="btn btn-primary" th:href="@{/products}">Browse Products</a>
+    </div>
+</main>
+
+<div th:replace="~{fragments::footer}"></div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

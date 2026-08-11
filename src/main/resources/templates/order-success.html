@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::head('Order Success')}"></head>
+<body>
+<div th:replace="~{fragments::navbar}"></div>
+
+<main class="container page">
+    <div class="success-card card">
+        <div class="success-icon">&#10003;</div>
+        <h1>Order placed successfully!</h1>
+        <p>Thank you for shopping with NO WAY.</p>
+
+        <div class="success-details">
+            <p><span>Order ID:</span> <strong th:text="'#' + ${order.id}">#12345</strong></p>
+            <p><span>Total:</span> <strong th:text="'₹' + ${#numbers.formatDecimal(order.totalAmount, 1, 'COMMA', 0, 'POINT')}">₹0</strong></p>
+            <p><span>Status:</span> <strong th:text="${order.status}">CONFIRMED</strong></p>
+        </div>
+
+        <div class="summary-actions">
+            <a class="btn btn-outline" th:href="@{/products}">Continue Shopping</a>
+            <a class="btn btn-primary" th:href="@{/orders}">View Orders</a>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments::footer}"></div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
