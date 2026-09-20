@@ -111,6 +111,25 @@ java -jar target/noway-app-1.0.0.jar
 
 Then open <http://localhost:8080>.
 
+## Deploying to Render
+
+This project includes a `Dockerfile` and `render.yaml` for deployment as a Render web service.
+The application requires a MySQL 8 database. Render's managed database is PostgreSQL, so use an
+external MySQL provider and set these environment variables in the Render service:
+
+- `DB_URL`: Complete JDBC URL, for example `jdbc:mysql://HOST:3306/noway?useSSL=true&serverTimezone=UTC`
+- `DB_USERNAME`: MySQL username
+- `DB_PASSWORD`: MySQL password
+
+To deploy:
+
+1. Push the repository to GitHub or GitLab.
+2. In Render, choose **New > Blueprint** and select the repository.
+3. Render detects `render.yaml`, creates the `noway` web service, and asks for the three database variables.
+4. Enter the JDBC URL and credentials from your MySQL provider, then deploy.
+
+Render supplies `PORT` automatically. The app uses that value and falls back to port `8080` for local development.
+
 ---
 
 ## Default Admin Account
